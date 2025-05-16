@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nuestra Historia</title>
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(to top, #fff0f5, #ffe4e1);
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 2.2em;
+      color: #c2185b;
+      margin-top: 20px;
+    }
+
+    .contador {
+      font-size: 1.5em;
+      color: #6a1b9a;
+      margin: 10px 0 30px;
+    }
+
+    .tree {
+      position: relative;
+      width: 200px;
+      height: 300px;
+    }
+
+    .trunk {
+      width: 20px;
+      height: 100px;
+      background-color: #8d6e63;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%) scaleY(0);
+      animation: growTrunk 2s forwards;
+    }
+
+    @keyframes growTrunk {
+      to {
+        transform: translateX(-50%) scaleY(1);
+      }
+    }
+
+    .branch {
+      width: 120px;
+      height: 120px;
+      background-color: #66bb6a;
+      border-radius: 50%;
+      position: absolute;
+      top: 40px;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 0;
+      animation: growLeaves 2s ease-out 2s forwards;
+    }
+
+    @keyframes growLeaves {
+      to {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+    }
+
+    .message {
+      max-width: 400px;
+      color: #ad1457;
+      font-size: 1.2em;
+      margin-top: 20px;
+      opacity: 0;
+      animation: showMessage 2s ease-in-out 4s forwards;
+    }
+
+    @keyframes showMessage {
+      to {
+        opacity: 1;
+      }
+    }
+
+    .petal, .heart {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      background-color: pink;
+      border-radius: 50%;
+      opacity: 0.7;
+      animation: fall linear infinite;
+    }
+
+    .heart {
+      background-color: #ff80ab;
+      width: 20px;
+      height: 20px;
+      clip-path: polygon(50% 0%, 100% 40%, 82% 100%, 50% 80%, 18% 100%, 0% 40%);
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Nuestra historia comenzó hace...</h1>
+  <div class="contador" id="contador"></div>
+
+  <div class="tree">
+    <div class="trunk"></div>
+    <div class="branch"></div>
+  </div>
+
+  <div class="message">
+    Como este árbol que crece fuerte y lleno de vida, así florece nuestro amor cada día.
+  </div>
+
+  <script>
+    const fechaInicio = new Date('2024-08-23T00:00:00');
+    function actualizarContador() {
+      const ahora = new Date();
+      const diferencia = ahora - fechaInicio;
+
+      const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+      const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
+      const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
+      const segundos = Math.floor((diferencia / 1000) % 60);
+
+      document.getElementById('contador').textContent =
+        `${dias} días, ${horas} horas, ${minutos} minutos, ${segundos} segundos`;
+    }
+
+    actualizarContador();
+    setInterval(actualizarContador, 1000);
+
+    // Crear pétalos y corazones
+    function crearElemento(clase) {
+      const elem = document.createElement('div');
+      elem.classList.add(clase);
+      elem.style.left = Math.random() * 100 + 'vw';
+      elem.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      elem.style.top = '-20px';
+      document.body.appendChild(elem);
+
+      setTimeout(() => {
+        elem.remove();
+      }, 10000);
+    }
+
+    setInterval(() => crearElemento('petal'), 400);
+    setInterval(() => crearElemento('heart'), 1500);
+  </script>
+</body>
+</html>
